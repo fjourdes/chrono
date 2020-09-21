@@ -27,20 +27,13 @@ message(STATUS "Find MKL libraries")
 
 #set(MKL_USE_STATIC_LIBS ON)
 #set(MKL_FIND_DEBUG ON)
-find_package(MKL)
+find_package(MKL REQUIRED)
 
 message(STATUS "   MKL include dirs:   ${MKL_INCLUDE_DIRS}")
 message(STATUS "   MKL libraries:      ${MKL_LIBRARIES}")
-message(STATUS "   IOMP5 library:      ${IOMP5_LIBRARY}")
-message(STATUS "   MATH library:       ${MATH_LIBRARY}")
-message(STATUS "   MKL library dirs:   ${MKL_LIBRARY_DIRS}")
-
-if(NOT MKL_LIBRARIES)
-  set(MKL_ROOT "" CACHE PATH "Location of MKL installation")
-endif()
 
 # Make required libraries visible from outside current directory
-set(CH_MKL_LIBRARIES ${MKL_LIBRARIES} ${IOMP5_LIBRARY})
+set(CH_MKL_LIBRARIES ${MKL_LIBRARIES} )
 set(CH_MKL_LIBRARIES "${CH_MKL_LIBRARIES}" PARENT_SCOPE)
 
 # ------------------------------------------------------------------------------
@@ -93,7 +86,6 @@ set_target_properties(ChronoEngine_mkl PROPERTIES
 
 target_compile_definitions(ChronoEngine_mkl PRIVATE "CH_API_COMPILE_MKL")
 target_compile_definitions(ChronoEngine_mkl PRIVATE "EIGEN_USE_MKL_ALL")
-target_compile_definitions(ChronoEngine_mkl PRIVATE "MKL_LP64")
 target_compile_definitions(ChronoEngine_mkl PRIVATE "CH_IGNORE_DEPRECATED")
 
 target_link_libraries(ChronoEngine_mkl
